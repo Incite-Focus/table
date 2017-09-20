@@ -101,15 +101,12 @@ input[type="checkbox"] {
 <script src="js/libs/jquery-3.1.1.min.js"></script>
 <script src="js/libs/jquery.mousewheel.min.js"></script>
 <script src="js/libs/three.js"></script>
-<script src="js/libs/STLBinaryExporter.js"></script>
-
 
 <script src="js/table.js"></script>
 <script src="js/draw.js"></script>
 <script src="js/make.js"></script>
 
 <canvas id="myCanvas"></canvas>
-
 
 <div id="parameters" style="top:10px;left:10px">
 
@@ -142,7 +139,9 @@ TABLE<br>
 &emsp;&emsp;<input id='radius' type="number" value="1" step="0.0625" autocomplete="off"/><br>
 
 &emsp;top edge overhang<br>
-&emsp;&emsp;<input id='overhang' type="number" value="2" min="0" step="0.0625" autocomplete="off"/><br>
+&emsp;&emsp;<input id='overhang' type="number" value="2" min="0" step="0.0625" autocomplete="off"/><p>
+
+&emsp;shelf<input id='shelf' type="checkbox" onclick="updateAll()" autocomplete="off" checked="true"/><p>
 
 <p>
 &emsp;BOM<br>
@@ -160,6 +159,7 @@ TABLE<br>
 &emsp;&emsp;dxf does not yet include dogbone fillets<br>
 &emsp;&emsp;tool: 1/4" 2-flute upcut, 1/4" cut depth, 1.5"/sec<br>
 &emsp;&emsp;pocket interior shapes of table top<br>
+&emsp;&emsp;shelf parts included in dxf<br>
 </div>
 
 </div>
@@ -194,7 +194,7 @@ TABLE<br>
 
 <div id="gh">
 
-	<a href="https://www.github.com/incite-focus/table">GitHub</a>
+	<a href="http://www.incite-focus.org/table">GitHub</a>
 
 </div>
 
@@ -224,6 +224,8 @@ $("#thickness").val(table.thickness)
 
 
 document.getElementById('2D').checked=false
+document.getElementById('shelf').checked=false
+
 
 var scene = new THREE.Scene() 
  
@@ -290,7 +292,6 @@ color: 0xe9ccb0,
 polygonOffset: true, 
 polygonOffsetFactor: 1 
 })
-
 
 var material6 =new THREE.MeshBasicMaterial( {
 transparent: true,
@@ -942,6 +943,14 @@ function loadParts(){
 	makePart(tableSupportSide,"support2")
 	makePart(tableSupportSide,"support2-l")
 
+
+	makePart(tableShelf,"shelf")
+
+	makePart(tableShelfBlock,"shelfB1")
+	makePart(tableShelfBlock,"shelfB2")
+	makePart(tableShelfBlock,"shelfB3")
+	makePart(tableShelfBlock,"shelfB4")
+
 }
 
 function makePart(part,type){
@@ -1389,6 +1398,81 @@ function makePart(part,type){
 		scene.add( support2 )
 
 	}
+	else if((type=="shelf") && (document.getElementById('shelf').checked==true )){
+		shelfWF = new THREE.LineSegments(geometry,lineMaterial)
+		shelf = new THREE.Mesh( extrude, materials )
+
+		rotateX(shelfWF,Math.PI/2)
+		rotateX(shelf,Math.PI/2)
+
+		translate(shelf,0,((table.height/2)+(1+thickness))*10,0)
+		translate(shelfWF,0,((table.height/2)+(1+thickness))*10,0)
+	
+
+		scene.add( shelfWF )
+		scene.add( shelf )
+
+	}
+	else if((type=="shelfB1") && (document.getElementById('shelf').checked==true )){
+		shelfB1WF = new THREE.LineSegments(geometry,lineMaterial)
+		shelfB1 = new THREE.Mesh( extrude, materials )
+
+		rotateX(shelfB1WF,Math.PI)
+		rotateX(shelfB1,Math.PI)
+
+		translate(shelfB1,((table.width/2)-(table.overHang)-(thickness*2)-(table.legWidth/4))*10,(table.height/2)*10,(-(table.depth/2)+(table.overHang)+(thickness*3))*10)
+		translate(shelfB1WF,((table.width/2)-(table.overHang)-(thickness*2)-(table.legWidth/4))*10,(table.height/2)*10,(-(table.depth/2)+(table.overHang)+(thickness*3))*10)
+	
+		scene.add( shelfB1WF )
+		scene.add( shelfB1 )
+
+	}
+	else if((type=="shelfB2") && (document.getElementById('shelf').checked==true )){
+		shelfB2WF = new THREE.LineSegments(geometry,lineMaterial)
+		shelfB2 = new THREE.Mesh( extrude, materials )
+
+		rotateY(shelfB2WF,Math.PI)
+		rotateY(shelfB2,Math.PI)
+
+		translate(shelfB2,0,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2))*10)
+		translate(shelfB2WF,0,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2))*10)
+
+		//scene.add( shelfB2WF )
+		//scene.add( shelfB2 )
+
+	}
+	else if((type=="shelfB3") && (document.getElementById('shelf').checked==true )){
+		shelfB3WF = new THREE.LineSegments(geometry,lineMaterial)
+		shelfB3 = new THREE.Mesh( extrude, materials )
+
+		rotateY(shelfB3WF,Math.PI/2)
+		rotateY(shelfB3,Math.PI/2)
+
+		translate(shelfB3,((table.width/2)-(table.overHang)-(thickness*3))*10,(table.height/2)*10,(-(table.depth/2)+(table.overHang)+(thickness*2)+(table.legWidth/4))*10)
+		translate(shelfB3WF,((table.width/2)-(table.overHang)-(thickness*3))*10,(table.height/2)*10,(-(table.depth/2)+(table.overHang)+(thickness*2+(table.legWidth/4)))*10)
+	
+		scene.add( shelfB3WF )
+		scene.add( shelfB3 )
+
+	}
+	else if((type=="shelfB4") && (document.getElementById('shelf').checked==true )){
+		shelfB4WF = new THREE.LineSegments(geometry,lineMaterial)
+		shelfB4 = new THREE.Mesh( extrude, materials )
+
+		//rotateY(shelfB2WF,Math.PI/2)
+		//rotateY(shelfB2,Math.PI/2)
+
+		translate(shelfB4,0,100,0)
+		translate(shelfB4WF,0,100,0)
+	
+		//scene.add( shelfB4WF )
+		//scene.add( shelfB4 )
+
+	}
+	else{
+		console.log(type)
+	}
+
 
 
 

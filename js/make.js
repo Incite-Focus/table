@@ -1,6 +1,6 @@
 function make(){
 
-		partSpace=1
+		partSpace=2
 
 		dxf = "0\nSECTION\n2\nENTITIES\n999\nw4rd.com\n0\n"
 
@@ -207,52 +207,61 @@ function make(){
 		dxf+="SEQEND\n0\n"
 
 		//shelf
+		////
 
+
+		if(document.getElementById('shelf').checked==true){
 		
-		dxf+="POLYLINE\n8\nshelf\n62\n206\n70\n1\n0\n"	
+			dxf+="POLYLINE\n8\nshelf\n62\n190\n70\n1\n0\n"	
 
-		for(i=0;i<tableShelf.cutout.length;i++){
+			for(i=0;i<tableShelf.cutout.length;i++){
+
+				dxf+="VERTEX\n10\n"
+				dxf+= tableShelf.cutout[i].X.toFixed(3) + "\n20\n" 
+				dxf+= tableShelf.cutout[i].Y+table.depth-table.overHang+(thickness/2) + "\n0\n"
+
+			}
+			dxf+="VERTEX\n10\n"
+			dxf+= tableShelf.cutout[0].X.toFixed(3) + "\n20\n" 
+			dxf+= tableShelf.cutout[0].Y+table.depth-table.overHang+(thickness/2) + "\n0\n"
+
+			dxf+="SEQEND\n0\n"
+
+			dxf+="POLYLINE\n8\nshelf_block\n62\n200\n70\n1\n0\n"	
+
+			for(i=0;i<tableShelfBlock.cutout.length;i++){
+
+				dxf+="VERTEX\n10\n"
+				dxf+= (tableShelfBlock.cutout[i].X+table.width/2).toFixed(3) + "\n20\n" 
+				dxf+= tableShelfBlock.cutout[i].Y+table.depth/2+2 + "\n0\n"
+
+			}
 
 			dxf+="VERTEX\n10\n"
-			dxf+= tableShelf.cutout[i].X.toFixed(3) + "\n20\n" 
-			dxf+= tableShelf.cutout[i].Y+table.depth-table.overHang+(thickness/2) + "\n0\n"
+			dxf+= (tableShelfBlock.cutout[0].X+table.width/2).toFixed(3) + "\n20\n" 
+			dxf+= tableShelfBlock.cutout[0].Y+table.depth/2+2 + "\n0\n"
 
-		}
-		dxf+="VERTEX\n10\n"
-		dxf+= tableShelf.cutout[0].X.toFixed(3) + "\n20\n" 
-		dxf+= tableShelf.cutout[0].Y+table.depth-table.overHang+(thickness/2) + "\n0\n"
+			dxf+="SEQEND\n0\n"
 
-		dxf+="SEQEND\n0\n"
+			dxf+="POLYLINE\n8\nshelf_block\n62\n200\n70\n1\n0\n"	
 
-		dxf+="POLYLINE\n8\nshelf_block\n62\n208\n70\n1\n0\n"	
+			for(i=0;i<tableShelfBlock.holes[0].length;i++){
 
-		for(i=0;i<tableShelfBlock.cutout.length;i++){
+				dxf+="VERTEX\n10\n"
+				dxf+= (tableShelfBlock.holes[0][i].X+table.width/2).toFixed(3) + "\n20\n" 
+				dxf+= tableShelfBlock.holes[0][i].Y+table.depth/2+2 + "\n0\n"
 
+			}
 			dxf+="VERTEX\n10\n"
-			dxf+= (tableShelfBlock.cutout[i].X+table.width/2).toFixed(3) + "\n20\n" 
-			dxf+= tableShelfBlock.cutout[i].Y+table.depth/2+2 + "\n0\n"
+			dxf+= (tableShelfBlock.holes[0][0].X+table.width/2).toFixed(3) + "\n20\n" 
+			dxf+= tableShelfBlock.holes[0][0].Y+table.depth/2+2 + "\n0\n"
+	
+			dxf+="SEQEND\n0\n"
 
 		}
-		dxf+="VERTEX\n10\n"
-		dxf+= (tableShelfBlock.cutout[0].X+table.width/2).toFixed(3) + "\n20\n" 
-		dxf+= tableShelfBlock.cutout[0].Y+table.depth/2+2 + "\n0\n"
 
-		dxf+="SEQEND\n0\n"
+		////
 
-		dxf+="POLYLINE\n8\nshelf_block\n62\n208\n70\n1\n0\n"	
-
-		for(i=0;i<tableShelfBlock.holes[0].length;i++){
-
-			dxf+="VERTEX\n10\n"
-			dxf+= (tableShelfBlock.holes[0][i].X+table.width/2).toFixed(3) + "\n20\n" 
-			dxf+= tableShelfBlock.holes[0][i].Y+table.depth/2+2 + "\n0\n"
-
-		}
-		dxf+="VERTEX\n10\n"
-		dxf+= (tableShelfBlock.holes[0][0].X+table.width/2).toFixed(3) + "\n20\n" 
-		dxf+= tableShelfBlock.holes[0][0].Y+table.depth/2+2 + "\n0\n"
-
-		dxf+="SEQEND\n0\n"
 
 		//end
 		dxf+="ENDSEC\n0\nEOF"

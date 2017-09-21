@@ -159,7 +159,7 @@ TABLE<br>
 &emsp;&emsp;dxf does not yet include dogbone fillets<br>
 &emsp;&emsp;tool: 1/4" 2-flute upcut, 1/4" cut depth, 1.5"/sec<br>
 &emsp;&emsp;pocket interior shapes of table top<br>
-&emsp;&emsp;shelf parts included in dxf<br>
+
 </div>
 
 </div>
@@ -202,9 +202,6 @@ TABLE<br>
 
 //TODO
 //
-//
-//
-//shelf 3d
 //
 
 //
@@ -897,6 +894,13 @@ function loadParts(){
 		tableShelf.cutout.push({X:(table.width/2)-table.overHang-(thickness*2),Y:(table.depth/2)-table.overHang-(thickness*2)})
 		tableShelf.cutout.push({X:(table.width/2)-table.overHang-(thickness*2),Y:-(table.depth/2)+table.overHang+(thickness*2)})
 
+		//pocket shelf blocks
+		//tableShelf.pockets.push([])
+		//tableShelf.pockets[tableShelf.pockets.length-1].push({X:-1,Y:1})
+		//tableShelf.pockets[tableShelf.pockets.length-1].push({X:1,Y:1})
+		//tableShelf.pockets[tableShelf.pockets.length-1].push({X:1,Y:-1})
+		//tableShelf.pockets[tableShelf.pockets.length-1].push({X:-1,Y:-1})		
+		//console.log(tableShelf)
 
 		tableShelfBlock.cutout.push({X:-table.legWidth/4,Y:-1})
 		tableShelfBlock.cutout.push({X:-table.legWidth/4,Y:1})
@@ -924,25 +928,20 @@ function loadParts(){
 	makePart(tableLeg2,"leg2.3")
 	makePart(tableLeg2,"leg2.4")
 
-
-
 	makePart(tableFoot1,"foot1")
 	makePart(tableFoot1,"foot1.2")
 	makePart(tableFoot1,"foot1.3")
 	makePart(tableFoot1,"foot1.4")
-
 
 	makePart(tableFoot2,"foot2")
 	makePart(tableFoot2,"foot2.2")
 	makePart(tableFoot2,"foot2.3")
 	makePart(tableFoot2,"foot2.4")
 
-
 	makePart(tableSupportFront,"support1")
 	makePart(tableSupportFront,"support1-b")
 	makePart(tableSupportSide,"support2")
 	makePart(tableSupportSide,"support2-l")
-
 
 	makePart(tableShelf,"shelf")
 
@@ -950,6 +949,10 @@ function loadParts(){
 	makePart(tableShelfBlock,"shelfB2")
 	makePart(tableShelfBlock,"shelfB3")
 	makePart(tableShelfBlock,"shelfB4")
+	makePart(tableShelfBlock,"shelfB5")
+	makePart(tableShelfBlock,"shelfB6")
+	makePart(tableShelfBlock,"shelfB7")
+	makePart(tableShelfBlock,"shelfB8")
 
 	scale(sf)
 
@@ -1436,11 +1439,11 @@ function makePart(part,type){
 		rotateY(shelfB2WF,Math.PI)
 		rotateY(shelfB2,Math.PI)
 
-		translate(shelfB2,0,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2))*10)
-		translate(shelfB2WF,0,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2))*10)
+		translate(shelfB2,(-(table.width/2)+(table.overHang)+(thickness*2)+(table.legWidth/4))*10,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2))*10)
+		translate(shelfB2WF,(-(table.width/2)+(table.overHang)+(thickness*2)+(table.legWidth/4))*10,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2))*10)
 
-		//scene.add( shelfB2WF )
-		//scene.add( shelfB2 )
+		scene.add( shelfB2WF )
+		scene.add( shelfB2 )
 
 	}
 	else if((type=="shelfB3") && (document.getElementById('shelf').checked==true )){
@@ -1461,18 +1464,80 @@ function makePart(part,type){
 		shelfB4WF = new THREE.LineSegments(geometry,lineMaterial)
 		shelfB4 = new THREE.Mesh( extrude, materials )
 
-		//rotateY(shelfB2WF,Math.PI/2)
-		//rotateY(shelfB2,Math.PI/2)
+		rotateY(shelfB4WF,-Math.PI/2)
+		rotateY(shelfB4,-Math.PI/2)
 
-		translate(shelfB4,0,100,0)
-		translate(shelfB4WF,0,100,0)
+		rotateZ(shelfB4WF,-Math.PI)
+		rotateZ(shelfB4,-Math.PI)
+
+		translate(shelfB4,(-(table.width/2)+(table.overHang)+(thickness*2))*10,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2)-(table.legWidth/4))*10)
+		translate(shelfB4WF,(-(table.width/2)+(table.overHang)+(thickness*2))*10,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2)-(table.legWidth/4))*10)
 	
-		//scene.add( shelfB4WF )
-		//scene.add( shelfB4 )
+		scene.add( shelfB4WF )
+		scene.add( shelfB4 )
+
+	}
+	else if((type=="shelfB5") && (document.getElementById('shelf').checked==true )){
+		shelfB5WF = new THREE.LineSegments(geometry,lineMaterial)
+		shelfB5 = new THREE.Mesh( extrude, materials )
+
+		rotateY(shelfB5WF,-Math.PI/2)
+		rotateY(shelfB5,-Math.PI/2)
+
+		translate(shelfB5,((table.width/2)-(table.overHang)-(thickness*2))*10,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2)-(table.legWidth/4))*10)
+		translate(shelfB5WF,((table.width/2)-(table.overHang)-(thickness*2))*10,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2)-(table.legWidth/4))*10)
+	
+		scene.add( shelfB5WF )
+		scene.add( shelfB5 )
+
+	}
+	else if((type=="shelfB6") && (document.getElementById('shelf').checked==true )){
+		shelfB6WF = new THREE.LineSegments(geometry,lineMaterial)
+		shelfB6 = new THREE.Mesh( extrude, materials )
+
+		rotateY(shelfB6WF,Math.PI/2)
+		rotateY(shelfB6,Math.PI/2)
+
+		translate(shelfB6,(-(table.width/2)+(table.overHang)+(thickness*2))*10,(table.height/2)*10,(-(table.depth/2)+(table.overHang)+(thickness*2)+(table.legWidth/4))*10)
+		translate(shelfB6WF,(-(table.width/2)+(table.overHang)+(thickness*2))*10,(table.height/2)*10,(-(table.depth/2)+(table.overHang)+(thickness*2+(table.legWidth/4)))*10)
+	
+		scene.add( shelfB6WF )
+		scene.add( shelfB6 )
+
+	}
+	else if((type=="shelfB7") && (document.getElementById('shelf').checked==true )){
+		shelfB7WF = new THREE.LineSegments(geometry,lineMaterial)
+		shelfB7 = new THREE.Mesh( extrude, materials )
+
+		rotateX(shelfB7WF,Math.PI)
+		rotateX(shelfB7,Math.PI)
+
+		translate(shelfB7,((table.width/2)-(table.overHang)-(thickness*2)-(table.legWidth/4))*10,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2))*10)
+		translate(shelfB7WF,((table.width/2)-(table.overHang)-(thickness*2)-(table.legWidth/4))*10,(table.height/2)*10,((table.depth/2)-(table.overHang)-(thickness*2))*10)
+	
+		scene.add( shelfB7WF )
+		scene.add( shelfB7 )
+
+	}
+	else if((type=="shelfB8") && (document.getElementById('shelf').checked==true )){
+		shelfB8WF = new THREE.LineSegments(geometry,lineMaterial)
+		shelfB8 = new THREE.Mesh( extrude, materials )
+
+		rotateY(shelfB8WF,Math.PI)
+		rotateY(shelfB8,Math.PI)
+
+		rotateX(shelfB8WF,-Math.PI)
+		rotateX(shelfB8,-Math.PI)
+
+		translate(shelfB8,(-(table.width/2)+(table.overHang)+(thickness*2)+(table.legWidth/4))*10,(table.height/2)*10,(-(table.depth/2)+(table.overHang)+(thickness*2))*10)
+		translate(shelfB8WF,(-(table.width/2)+(table.overHang)+(thickness*2)+(table.legWidth/4))*10,(table.height/2)*10,(-(table.depth/2)+(table.overHang)+(thickness*2))*10)
+
+		scene.add( shelfB8WF )
+		scene.add( shelfB8 )
 
 	}
 	else{
-		console.log(type)
+		//console.log(type)
 	}
 
 

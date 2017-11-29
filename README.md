@@ -2,7 +2,7 @@
 
 TableMaker is a simple web application for designing and making custom tables.  
 
-[DEMO](http://www.incite-focus.org/table)   
+[DEMO](http://incite-focus.github.io/table/)   
 
 &copy; 2017 Incite Focus  
 
